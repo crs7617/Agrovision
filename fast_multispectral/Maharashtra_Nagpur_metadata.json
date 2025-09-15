@@ -1,0 +1,26 @@
+{
+  "name": "Maharashtra_Nagpur",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.07100634144556242,
+  "vegetation_pixels": 8669,
+  "crop_type": "cotton",
+  "bbox": [
+    79.0,
+    21.1,
+    79.2,
+    21.3
+  ],
+  "download_time": "2025-09-15T21:50:04.657379"
+}

@@ -1,0 +1,230 @@
+{
+  "processing_summary": {
+    "total_locations": 60,
+    "processing_date": "2025-09-15T22:19:24.356659",
+    "geographic_coverage": {
+      "states": [
+        "AP",
+        "Bihar",
+        "Gujarat",
+        "Haryana",
+        "Karnataka",
+        "MP",
+        "Maharashtra",
+        "Punjab",
+        "Rajasthan",
+        "TamilNadu",
+        "UP",
+        "WestBengal"
+      ],
+      "total_states": 12,
+      "total_cities": 60
+    }
+  },
+  "agricultural_insights": {
+    "crop_types": {
+      "rice": 18,
+      "wheat": 18,
+      "cotton": 14,
+      "rice_wheat": 3,
+      "wheat_rice": 3,
+      "sugarcane": 3,
+      "cereals": 1
+    },
+    "health_distribution": {
+      "Fair": 15,
+      "Good": 15,
+      "Poor": 13,
+      "Very Poor": 13,
+      "Excellent": 4
+    },
+    "average_ndvi_by_state": {
+      "AP": 0.1035922884941101,
+      "Bihar": 0.15484004318714142,
+      "Gujarat": 0.10455359779298305,
+      "Haryana": 0.5433199763298034,
+      "Karnataka": 0.16976656038314103,
+      "MP": 0.09284720486029982,
+      "Maharashtra": 0.1522774189710617,
+      "Punjab": 0.524015486240387,
+      "Rajasthan": 0.49632481932640077,
+      "TamilNadu": 0.4143550395965576,
+      "UP": 0.3377333492040634,
+      "WestBengal": 0.2544350951910019
+    },
+    "average_health_score_by_crop": {
+      "cereals": 0.1,
+      "cotton": 0.31428571428571433,
+      "rice": 0.4444444444444444,
+      "rice_wheat": 0.5,
+      "sugarcane": 0.3666666666666667,
+      "wheat": 0.5333333333333333,
+      "wheat_rice": 0.7000000000000001
+    }
+  },
+  "top_performing_regions": {
+    "highest_ndvi": [
+      {
+        "location": "Punjab_Bathinda",
+        "ndvi_mean": 0.6925679445266724,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Haryana_Rohtak",
+        "ndvi_mean": 0.6366780996322632,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Haryana_Panipat",
+        "ndvi_mean": 0.6144384145736694,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Punjab_Patiala",
+        "ndvi_mean": 0.6051985025405884,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "TamilNadu_Salem",
+        "ndvi_mean": 0.5996880531311035,
+        "overall_health": "Good"
+      }
+    ],
+    "highest_health_score": [
+      {
+        "location": "Haryana_Panipat",
+        "health_score": 0.9,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Haryana_Rohtak",
+        "health_score": 0.9,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Punjab_Bathinda",
+        "health_score": 0.9,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Punjab_Patiala",
+        "health_score": 0.9,
+        "overall_health": "Excellent"
+      },
+      {
+        "location": "Haryana_Hisar",
+        "health_score": 0.7,
+        "overall_health": "Good"
+      }
+    ]
+  },
+  "areas_needing_attention": {
+    "lowest_ndvi": [
+      {
+        "location": "MP_Jabalpur",
+        "ndvi_mean": -0.004108878783881664,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "MP_Ujjain",
+        "ndvi_mean": -0.0020431368611752987,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "Gujarat_Bhavnagar",
+        "ndvi_mean": 0.010007446631789207,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "Karnataka_Hubli",
+        "ndvi_mean": 0.012277373112738132,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "Gujarat_Surat",
+        "ndvi_mean": 0.016262613236904144,
+        "overall_health": "Very Poor"
+      }
+    ],
+    "highest_stress": [
+      {
+        "location": "AP_Hyderabad",
+        "stress_count": 3,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "Gujarat_Ahmedabad",
+        "stress_count": 3,
+        "overall_health": "Fair"
+      },
+      {
+        "location": "Gujarat_Vadodara",
+        "stress_count": 3,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "MP_Bhopal",
+        "stress_count": 3,
+        "overall_health": "Very Poor"
+      },
+      {
+        "location": "MP_Indore",
+        "stress_count": 3,
+        "overall_health": "Poor"
+      }
+    ]
+  },
+  "recommendations": {
+    "immediate_attention": [
+      "AP_Guntur",
+      "AP_Hyderabad",
+      "AP_Tirupati",
+      "AP_Vijayawada",
+      "AP_Visakhapatnam",
+      "Bihar_Bhagalpur",
+      "Bihar_Darbhanga",
+      "Bihar_Gaya",
+      "Bihar_Patna",
+      "Gujarat_Bhavnagar",
+      "Gujarat_Rajkot",
+      "Gujarat_Surat",
+      "Gujarat_Vadodara",
+      "Karnataka_Bangalore",
+      "Karnataka_Hubli",
+      "Karnataka_Mysore",
+      "MP_Bhopal",
+      "MP_Indore",
+      "MP_Jabalpur",
+      "MP_Ujjain",
+      "Maharashtra_Kolhapur",
+      "Maharashtra_Nagpur",
+      "Maharashtra_Nashik",
+      "Maharashtra_Pune",
+      "WestBengal_Burdwan",
+      "WestBengal_Durgapur"
+    ],
+    "monitor_closely": [
+      "Bihar_Muzaffarpur",
+      "Gujarat_Ahmedabad",
+      "Haryana_Gurgaon",
+      "Karnataka_Belgaum",
+      "Karnataka_Gulbarga",
+      "MP_Gwalior",
+      "Maharashtra_Aurangabad",
+      "TamilNadu_Chennai",
+      "TamilNadu_Coimbatore",
+      "UP_Agra",
+      "UP_Kanpur",
+      "UP_Lucknow",
+      "UP_Varanasi",
+      "WestBengal_Krishnanagar",
+      "WestBengal_Siliguri"
+    ],
+    "excellent_performance": [
+      "Haryana_Panipat",
+      "Haryana_Rohtak",
+      "Punjab_Bathinda",
+      "Punjab_Patiala"
+    ]
+  }
+}

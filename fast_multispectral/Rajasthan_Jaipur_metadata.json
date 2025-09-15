@@ -1,0 +1,26 @@
+{
+  "name": "Rajasthan_Jaipur",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.40516982388577244,
+  "vegetation_pixels": 39419,
+  "crop_type": "wheat",
+  "bbox": [
+    75.7,
+    26.8,
+    75.9,
+    27.0
+  ],
+  "download_time": "2025-09-15T21:50:24.315358"
+}

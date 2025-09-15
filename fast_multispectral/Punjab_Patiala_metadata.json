@@ -1,0 +1,26 @@
+{
+  "name": "Punjab_Patiala",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.6051923386242494,
+  "vegetation_pixels": 56239,
+  "crop_type": "wheat_rice",
+  "bbox": [
+    76.3,
+    30.2,
+    76.5,
+    30.4
+  ],
+  "download_time": "2025-09-15T21:49:28.623810"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Maharashtra_Aurangabad",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.3460867941780523,
+  "vegetation_pixels": 35988,
+  "crop_type": "cotton",
+  "bbox": [
+    75.2,
+    19.8,
+    75.4,
+    20.0
+  ],
+  "download_time": "2025-09-15T21:50:02.338145"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "TamilNadu_Salem",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.5996817434776153,
+  "vegetation_pixels": 57874,
+  "crop_type": "rice",
+  "bbox": [
+    78.1,
+    11.6,
+    78.3,
+    11.8
+  ],
+  "download_time": "2025-09-15T21:50:56.467000"
+}

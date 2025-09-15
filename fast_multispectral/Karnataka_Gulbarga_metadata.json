@@ -1,0 +1,26 @@
+{
+  "name": "Karnataka_Gulbarga",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.32654508053396836,
+  "vegetation_pixels": 36780,
+  "crop_type": "cotton",
+  "bbox": [
+    76.8,
+    17.3,
+    77.0,
+    17.5
+  ],
+  "download_time": "2025-09-15T21:50:46.638677"
+}

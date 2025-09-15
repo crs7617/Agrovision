@@ -1,0 +1,26 @@
+{
+  "name": "Bihar_Bhagalpur",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.035629998674063856,
+  "vegetation_pixels": 6115,
+  "crop_type": "rice",
+  "bbox": [
+    87.0,
+    25.2,
+    87.2,
+    25.4
+  ],
+  "download_time": "2025-09-15T21:51:37.009398"
+}

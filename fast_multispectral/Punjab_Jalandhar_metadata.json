@@ -1,0 +1,26 @@
+{
+  "name": "Punjab_Jalandhar",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.4418256118818721,
+  "vegetation_pixels": 44231,
+  "crop_type": "rice",
+  "bbox": [
+    75.5,
+    31.2,
+    75.7,
+    31.4
+  ],
+  "download_time": "2025-09-15T21:49:26.523358"
+}

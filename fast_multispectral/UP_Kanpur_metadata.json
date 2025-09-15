@@ -1,0 +1,26 @@
+{
+  "name": "UP_Kanpur",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.30221597085159335,
+  "vegetation_pixels": 28759,
+  "crop_type": "wheat",
+  "bbox": [
+    80.2,
+    26.3,
+    80.4,
+    26.5
+  ],
+  "download_time": "2025-09-15T21:49:45.071825"
+}

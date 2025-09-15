@@ -1,0 +1,26 @@
+{
+  "name": "Gujarat_Bhavnagar",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.010008063831848886,
+  "vegetation_pixels": 7158,
+  "crop_type": "cotton",
+  "bbox": [
+    72.1,
+    21.7,
+    72.3,
+    21.9
+  ],
+  "download_time": "2025-09-15T21:50:20.874414"
+}

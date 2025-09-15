@@ -1,0 +1,26 @@
+{
+  "name": "MP_Indore",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.1297410640920474,
+  "vegetation_pixels": 9448,
+  "crop_type": "wheat",
+  "bbox": [
+    75.8,
+    22.7,
+    76.0,
+    22.9
+  ],
+  "download_time": "2025-09-15T21:51:50.542368"
+}

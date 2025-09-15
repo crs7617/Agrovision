@@ -1,0 +1,26 @@
+{
+  "name": "Rajasthan_Kota",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.578946564247183,
+  "vegetation_pixels": 54639,
+  "crop_type": "wheat",
+  "bbox": [
+    75.8,
+    25.1,
+    76.0,
+    25.3
+  ],
+  "download_time": "2025-09-15T21:50:31.950685"
+}

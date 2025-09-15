@@ -1,0 +1,26 @@
+{
+  "name": "Karnataka_Bangalore",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.06636202321676152,
+  "vegetation_pixels": 8501,
+  "crop_type": "cereals",
+  "bbox": [
+    77.4,
+    12.8,
+    77.6,
+    13.0
+  ],
+  "download_time": "2025-09-15T21:50:36.263327"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Bihar_Darbhanga",
+  "bands": [
+    "B02(Blue)",
+    "B03(Green)",
+    "B04(Red)",
+    "B08(NIR)",
+    "B11(SWIR1)"
+  ],
+  "shape": [
+    256,
+    256,
+    5
+  ],
+  "size_mb": 0.31,
+  "ndvi_mean": 0.10247846538091454,
+  "vegetation_pixels": 6892,
+  "crop_type": "rice",
+  "bbox": [
+    85.8,
+    26.1,
+    86.0,
+    26.3
+  ],
+  "download_time": "2025-09-15T21:51:42.254605"
+}
