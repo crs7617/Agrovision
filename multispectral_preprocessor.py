@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
-"""
-AgroVision AI - Advanced Multispectral Preprocessor
-==================================================
-Comprehensive preprocessing pipeline for agricultural satellite imagery
-with advanced vegetation indices and crop health analysis.
 
-Author: AgroVision AI Team
-Date: September 2025
-"""
 
 import numpy as np
 import json
