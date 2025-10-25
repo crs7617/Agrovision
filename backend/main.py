@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 
 from models.schemas import HealthCheckResponse
-from routers import analysis, satellite, chat, weather
+from routers import analysis, satellite, chat, weather, farms
 
 # Load environment variables
 load_dotenv()
@@ -51,6 +51,7 @@ async def root():
     }
 
 # Include routers
+app.include_router(farms.router, prefix="/api", tags=["Farms"])
 app.include_router(analysis.router, prefix="/api", tags=["Analysis"])
 app.include_router(satellite.router, prefix="/api", tags=["Satellite"])
 app.include_router(chat.router, prefix="/api", tags=["Chat"])
