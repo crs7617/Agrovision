@@ -192,4 +192,79 @@ async def get_visualizations(analysis_id: str):
         raise HTTPException(status_code=500, detail=f"Error retrieving visualizations: {str(e)}")
 
 
+@router.get("/farms/{farm_id}/trends")
+async def get_farm_trends(
+    farm_id: str,
+    index: str = "ndvi",
+    days: int = 90
+):
+    """
+    Get historical trends and anomaly detection for farm
+    Args:
+        farm_id: Farm identifier
+        index: Spectral index to analyze (ndvi, evi, savi)
+        days: Number of days to look back (default 90)
+    Returns:
+        Historical trends, anomalies, and seasonal comparison
+    """
+    from services.temporal_service import (
+        get_historical_trend,
+        detect_anomalies,
+        calculate_trend_direction,
+        compare_seasonal_pattern
+    )
+    
+    try:
+        # Get historical data
+        time_series = get_historical_trend(farm_id, index.upper(), days)
+        
+        if not time_series:
+            raise HTTPException(status_code=404, detail=f"No historical data found for farm {farm_id}")
+        
+        # Detect anomalies
+        anomalies = detect_anomalies(time_series)
+        
+        # Calculate trend
+        trend = calculate_trend_direction(time_series)
+        
+        # Get current values for seasonal comparison
+        if time_series:
+            current_value = time_series[-1].value
+            current_data = {index.upper(): current_value}
+            
+            # Compare to seasonal baseline
+            seasonal_comparison = compare_seasonal_pattern(
+                current_data,
+                farm_id,
+                crop_type="wheat"  # TODO: Get from farm metadata
+            )
+        else:
+            seasonal_comparison = {
+                "comparison_text": "No data available",
+                "is_normal": True,
+                "deviation_percentage": 0
+            }
+        
+        return {
+            "success": True,
+            "farm_id": farm_id,
+            "index": index.upper(),
+            "period_days": days,
+            "data_points": len(time_series),
+            "time_series": [point.to_dict() for point in time_series],
+            "trend": trend,
+            "anomalies": {
+                "count": len(anomalies),
+                "detected": [anomaly.to_dict() for anomaly in anomalies]
+            },
+            "seasonal_comparison": seasonal_comparison,
+            "latest_value": time_series[-1].value if time_series else None
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error analyzing trends: {str(e)}")
+
+
 # We'll add the full /analyze endpoint in Phase 3
