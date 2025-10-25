@@ -21,8 +21,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        os.getenv("FRONTEND_URL", "http://localhost:3000"),
-        "http://localhost:3000"  # Fallback
+        os.getenv("FRONTEND_URL", "http://localhost:3001"),
+        "http://localhost:3001",
+        "http://localhost:3000"  # Fallback for both ports
     ],
     allow_credentials=True,
     allow_methods=["*"],

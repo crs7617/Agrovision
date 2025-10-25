@@ -3,8 +3,8 @@ export interface Farm {
   user_id: string;
   name: string;
   crop_type: string;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
   area: number;
   created_at: string;
   updated_at: string;
@@ -19,7 +19,7 @@ export interface Analysis {
   savi: number;
   health_score: number;
   satellite_image_url?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ChatMessage {
@@ -30,7 +30,7 @@ export interface ChatMessage {
   response_text: string;
   suggestions?: string[];
   intent: string;
-  entities?: any;
+  entities?: Record<string, unknown>;
   confidence?: string;
   timestamp: string;
 }
@@ -40,5 +40,35 @@ export interface User {
   email: string;
   name?: string;
   avatar_url?: string;
+  user_metadata?: {
+    name?: string;
+    avatar_url?: string;
+  };
   created_at: string;
 }
+
+export interface CreateFarmData {
+  name: string;
+  crop_type: string;
+  latitude: string;
+  longitude: string;
+  area: string;
+  description?: string;
+}
+
+export interface HealthZone {
+  zone_id: number;
+  ndvi_range: [number, number];
+  area_percentage: number;
+  health_status: 'excellent' | 'good' | 'moderate' | 'poor';
+  recommendations: string[];
+}
+
+export interface WeatherData {
+  date: string;
+  temperature: number;
+  humidity: number;
+  precipitation: number;
+  wind_speed: number;
+}
+

@@ -5,14 +5,14 @@ import { Sprout, BarChart3, MessageSquare, MapIcon, ArrowRight } from 'lucide-re
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Navigation */}
       <nav className="border-b border-slate-800 backdrop-blur-sm bg-slate-950/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <Sprout className="h-8 w-8 text-emerald-500" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-linear-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent">
                 AgroVision
               </span>
             </div>
@@ -32,10 +32,10 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-emerald-500/10 via-transparent to-transparent"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-emerald-400 via-blue-500 to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-emerald-400 via-blue-500 to-emerald-400 bg-clip-text text-transparent">
               AI-Powered Crop Monitoring
             </span>
           </h1>
