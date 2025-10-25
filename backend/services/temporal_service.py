@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from dataclasses import dataclass
 import numpy as np
 import logging
+from services.supabase_client import get_supabase_client
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +64,7 @@ def get_historical_trend(
     Returns:
         List of TimeSeriesPoint objects
     """
-    # For Phase 4, we'll use mock data since database isn't fully set up
-    # In production, this would query Supabase
-    
+    # If mock data provided (for testing), use it
     if mock_data:
         time_series = []
         for entry in mock_data:
@@ -76,8 +75,40 @@ def get_historical_trend(
             ))
         return time_series
     
+    # Try to load from database first
+    try:
+        supabase = get_supabase_client()
+        cutoff_date = datetime.now() - timedelta(days=days)
+        
+        result = supabase.table("temporal_data")\
+            .select("*")\
+            .eq("farm_id", farm_id)\
+            .eq("metric_type", index_name.upper())\
+            .gte("timestamp", cutoff_date.isoformat())\
+            .order("timestamp", desc=False)\
+            .execute()
+        
+        if result.data and len(result.data) > 0:
+            logger.info(f"✓ Retrieved {len(result.data)} historical data points from database")
+            time_series = []
+            for row in result.data:
+                time_series.append(TimeSeriesPoint(
+                    timestamp=datetime.fromisoformat(row["timestamp"]),
+                    value=float(row["value"]),
+                    metadata={
+                        "is_anomaly": row.get("is_anomaly", False),
+                        "anomaly_type": row.get("anomaly_type")
+                    }
+                ))
+            return time_series
+        else:
+            logger.info(f"No historical data in database for farm {farm_id}, generating mock data")
+    
+    except Exception as e:
+        logger.warning(f"Failed to load from database: {e}, using mock data")
+    
     # Generate mock historical data for demonstration
-    logger.warning(f"Using mock data for farm {farm_id} - database not yet integrated")
+    logger.info(f"Using mock data for farm {farm_id} - {index_name}")
     
     time_series = []
     end_date = datetime.now()
@@ -357,3 +388,47 @@ def calculate_trend_direction(time_series_data: List[TimeSeriesPoint]) -> Dict:
         "confidence": confidence,
         "interpretation": f"NDVI is {direction} at {abs(rate_per_week):.4f} per week"
     }
+
+
+def save_temporal_data(
+    farm_id: str,
+    metric_type: str,
+    value: float,
+    is_anomaly: bool = False,
+    anomaly_type: Optional[str] = None
+) -> Dict:
+    """
+    Save temporal data point to database
+    Args:
+        farm_id: Farm identifier
+        metric_type: Type of metric (NDVI, EVI, SAVI, etc.)
+        value: Metric value
+        is_anomaly: Whether this is an anomaly
+        anomaly_type: Type of anomaly if applicable
+    Returns:
+        Saved record or error dict
+    """
+    try:
+        supabase = get_supabase_client()
+        
+        data_point = {
+            "farm_id": farm_id,
+            "metric_type": metric_type.upper(),
+            "value": value,
+            "is_anomaly": is_anomaly,
+            "anomaly_type": anomaly_type
+        }
+        
+        result = supabase.table("temporal_data").insert(data_point).execute()
+        
+        if result.data:
+            logger.info(f"✓ Saved temporal data: {metric_type}={value} for farm {farm_id}")
+            return result.data[0]
+        else:
+            logger.warning("Temporal data save returned no data")
+            return {"success": False, "error": "No data returned"}
+            
+    except Exception as e:
+        logger.error(f"Failed to save temporal data: {e}")
+        return {"success": False, "error": str(e)}
+

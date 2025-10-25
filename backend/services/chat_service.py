@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import logging
 from services.llm_service import call_groq_api, setup_llm_client
 from services.knowledge_base import get_crop_info, diagnose_issue, recommend_actions
+from services.supabase_client import get_supabase_client
 
 logger = logging.getLogger(__name__)
 
@@ -438,11 +439,7 @@ def save_chat(
     Returns:
         Saved chat record with ID and timestamp
     """
-    # For Phase 5, we'll use in-memory storage
-    # In production, this would save to Supabase chat_history table
-    
     chat_record = {
-        "id": f"chat_{user_id}_{int(datetime.now().timestamp())}",
         "user_id": user_id,
         "farm_id": farm_id,
         "message": message,
@@ -451,16 +448,42 @@ def save_chat(
         "intent": intent,
         "entities": entities,
         "confidence": response.get("confidence_level"),
-        "timestamp": datetime.now().isoformat(),
         "source": response.get("source", "unknown")
     }
     
-    logger.info(f"Chat saved: {chat_record['id']} for user {user_id}")
+    logger.info(f"Saving chat for user {user_id}")
+    print(f"[DEBUG] Attempting to save chat for user {user_id}, farm {farm_id}")
+    print(f"[DEBUG] Chat record: {chat_record}")
     
-    # TODO: Save to Supabase
-    # supabase.table("chat_history").insert(chat_record).execute()
-    
-    return chat_record
+    try:
+        # Save to Supabase
+        supabase = get_supabase_client()
+        print(f"[DEBUG] Got Supabase client: {supabase is not None}")
+        result = supabase.table("chat_history").insert(chat_record).execute()
+        print(f"[DEBUG] Insert result: {result}")
+        
+        if result.data:
+            saved_record = result.data[0]
+            logger.info(f"✓ Chat saved to database: {saved_record['id']}")
+            print(f"[DEBUG] ✓ Chat saved successfully: {saved_record['id']}")
+            return saved_record
+        else:
+            logger.warning("Chat save returned no data")
+            print(f"[DEBUG] WARNING: Chat save returned no data")
+            # Fallback to mock record
+            chat_record["id"] = f"chat_{user_id}_{int(datetime.now().timestamp())}"
+            chat_record["timestamp"] = datetime.now().isoformat()
+            return chat_record
+            
+    except Exception as e:
+        logger.error(f"Failed to save chat to database: {e}")
+        print(f"[DEBUG] ERROR saving chat: {type(e).__name__}: {str(e)}")
+        import traceback
+        print(f"[DEBUG] Traceback: {traceback.format_exc()}")
+        # Fallback to mock record
+        chat_record["id"] = f"chat_{user_id}_{int(datetime.now().timestamp())}"
+        chat_record["timestamp"] = datetime.now().isoformat()
+        return chat_record
 
 
 def get_chat_history(
@@ -475,27 +498,27 @@ def get_chat_history(
     Returns:
         List of chat records
     """
-    # For Phase 5, return mock data
-    # In production, query Supabase
-    
     logger.info(f"Retrieving chat history for farm {farm_id}")
     
-    # TODO: Query from Supabase
-    # result = supabase.table("chat_history").select("*").eq("farm_id", farm_id).limit(limit).execute()
-    # return result.data
-    
-    # Mock response
-    return [
-        {
-            "id": f"chat_{farm_id}_001",
-            "message": "How is my wheat crop doing?",
-            "response_text": "Your wheat crop is in good health with NDVI of 0.72",
-            "timestamp": (datetime.now() - timedelta(days=2)).isoformat()
-        },
-        {
-            "id": f"chat_{farm_id}_002",
-            "message": "What should I do about yellowing leaves?",
-            "response_text": "Yellowing may indicate nitrogen deficiency. Apply urea fertilizer.",
-            "timestamp": (datetime.now() - timedelta(days=1)).isoformat()
-        }
-    ]
+    try:
+        # Query from Supabase
+        supabase = get_supabase_client()
+        result = supabase.table("chat_history")\
+            .select("*")\
+            .eq("farm_id", farm_id)\
+            .order("timestamp", desc=True)\
+            .limit(limit)\
+            .execute()
+        
+        if result.data:
+            logger.info(f"✓ Retrieved {len(result.data)} chat messages from database")
+            return result.data
+        else:
+            logger.info("No chat history found in database")
+            return []
+            
+    except Exception as e:
+        logger.error(f"Failed to retrieve chat history: {e}")
+        # Fallback to empty list
+        return []
+
