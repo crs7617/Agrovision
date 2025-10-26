@@ -27,6 +27,7 @@ import {
 import { getCurrentUser, signOut } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 import type { User as UserType } from '@/types'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 export default function DashboardLayout({
   children,
@@ -35,7 +36,7 @@ export default function DashboardLayout({
 }) {
   const router = useRouter()
   const pathname = usePathname()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState<UserType | null>(null)
 
   useEffect(() => {
@@ -195,7 +196,9 @@ export default function DashboardLayout({
         </header>
 
         {/* Page content */}
-        <main className="p-6">{children}</main>
+        <main className="p-6">
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </main>
       </div>
     </div>
   )

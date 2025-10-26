@@ -336,11 +336,11 @@ export default function FarmsPage() {
                   <div className="space-y-2 text-sm text-gray-400">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
-                      <span>{farm.lat.toFixed(4)}, {farm.lng.toFixed(4)}</span>
+                      <span>{farm.lat?.toFixed(4) ?? 'N/A'}, {farm.lng?.toFixed(4) ?? 'N/A'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span>📏</span>
-                      <span>{farm.area} hectares</span>
+                      <span>{farm.area ?? 'N/A'} hectares</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />

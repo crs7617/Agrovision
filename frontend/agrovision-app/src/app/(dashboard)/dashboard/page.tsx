@@ -4,18 +4,57 @@ import { useQuery } from '@tanstack/react-query'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sprout, TrendingUp, AlertTriangle, BarChart3 } from 'lucide-react'
+import { getCurrentUser } from '@/lib/supabase/client'
+import { useEffect, useState } from 'react'
 import type { Farm } from '@/types'
 
-const USER_ID = '00000000-0000-0000-0000-000000000001'
-
 export default function DashboardPage() {
+  const [userId, setUserId] = useState<string | null>(null)
+
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      if (user) setUserId(user.id)
+    })
+  }, [])
+
   const { data: farms, isLoading } = useQuery({
-    queryKey: ['farms'],
+    queryKey: ['farms', userId],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/api/farms?user_id=${USER_ID}`)
+      if (!userId) return []
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/farms?user_id=${userId}`)
       if (!res.ok) throw new Error('Failed to fetch farms')
       return res.json()
     },
+    enabled: !!userId,
+  })
+
+  // Fetch health stats for all farms
+  const { data: healthStats } = useQuery({
+    queryKey: ['health-stats', farms],
+    queryFn: async () => {
+      if (!farms || farms.length === 0) return null
+      
+      const healthPromises = farms.map(async (farm: Farm) => {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/farms/${farm.id}/trends?index=ndvi&days=7`
+          )
+          if (!res.ok) return { farmId: farm.id, avgHealth: 75 }
+          const data = await res.json()
+          const avgHealth = data.latest_value ? Math.round(data.latest_value * 100) : 75
+          return { farmId: farm.id, avgHealth }
+        } catch {
+          return { farmId: farm.id, avgHealth: 75 }
+        }
+      })
+      
+      const results = await Promise.all(healthPromises)
+      const totalHealth = results.reduce((sum, r) => sum + r.avgHealth, 0)
+      const avgHealth = Math.round(totalHealth / results.length)
+      
+      return { avgHealth, farmHealthMap: results }
+    },
+    enabled: !!farms && farms.length > 0,
   })
 
   const stats = [
@@ -28,14 +67,14 @@ export default function DashboardPage() {
     },
     {
       title: 'Avg Health Score',
-      value: '75%',
+      value: `${healthStats?.avgHealth || 75}%`,
       icon: TrendingUp,
       color: 'text-blue-500',
       bg: 'bg-blue-500/10',
     },
     {
       title: 'Active Analyses',
-      value: 12,
+      value: farms?.length || 0,
       icon: BarChart3,
       color: 'text-purple-500',
       bg: 'bg-purple-500/10',
@@ -100,7 +139,10 @@ export default function DashboardPage() {
         ) : farms && farms.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {farms.slice(0, 3).map((farm: Farm) => {
-              const healthScore = 75
+              const farmHealth = healthStats?.farmHealthMap?.find(
+                (h: { farmId: string; avgHealth: number }) => h.farmId === farm.id
+              )
+              const healthScore = farmHealth?.avgHealth || 75
               const healthColor =
                 healthScore >= 80
                   ? 'text-emerald-500'
@@ -112,6 +154,7 @@ export default function DashboardPage() {
                 <Card
                   key={farm.id}
                   className="bg-zinc-900 border-white/10 p-6 hover:border-emerald-500/50 transition-all cursor-pointer group"
+                  onClick={() => window.location.href = `/farms/${farm.id}`}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div>
@@ -125,8 +168,8 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="space-y-2 text-sm text-gray-400">
-                    <div>📍 {farm.lat.toFixed(2)}, {farm.lng.toFixed(2)}</div>
-                    <div>📏 {farm.area} hectares</div>
+                    <div>📍 {farm.lat?.toFixed(2) ?? 'N/A'}, {farm.lng?.toFixed(2) ?? 'N/A'}</div>
+                    <div>📏 {farm.area ?? 'N/A'} hectares</div>
                   </div>
                 </Card>
               )

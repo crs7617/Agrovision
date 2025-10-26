@@ -153,11 +153,11 @@ export default function FarmDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-5 w-5" />
-              <span>{farm.lat.toFixed(4)}, {farm.lng.toFixed(4)}</span>
+              <span>{farm.lat?.toFixed(4) ?? 'N/A'}, {farm.lng?.toFixed(4) ?? 'N/A'}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />
-              <span>{farm.area} hectares</span>
+              <span>{farm.area ?? 'N/A'} hectares</span>
             </div>
           </div>
         </div>
@@ -371,11 +371,11 @@ export default function FarmDetailPage() {
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               <Card className="bg-black/50 border-white/10 p-4">
                 <p className="text-sm text-gray-400 mb-1">Latitude</p>
-                <p className="text-lg font-bold text-white">{farm?.lat.toFixed(6)}</p>
+                <p className="text-lg font-bold text-white">{farm?.lat?.toFixed(6) ?? 'N/A'}</p>
               </Card>
               <Card className="bg-black/50 border-white/10 p-4">
                 <p className="text-sm text-gray-400 mb-1">Longitude</p>
-                <p className="text-lg font-bold text-white">{farm?.lng.toFixed(6)}</p>
+                <p className="text-lg font-bold text-white">{farm?.lng?.toFixed(6) ?? 'N/A'}</p>
               </Card>
               <Card className="bg-black/50 border-white/10 p-4">
                 <p className="text-sm text-gray-400 mb-1">Total Area</p>
