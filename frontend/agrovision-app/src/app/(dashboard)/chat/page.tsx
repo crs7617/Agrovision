@@ -5,16 +5,28 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Send, Bot, User, Loader2, Trash2, Download, Sparkles } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Send, Bot, User, Loader2, Trash2, Download, Sparkles, Globe } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { formatDistanceToNow } from 'date-fns'
 
 const USER_ID = '00000000-0000-0000-0000-000000000001'
 
+const LANGUAGES = {
+  en: 'English',
+  hi: 'हिन्दी (Hindi)',
+  ta: 'தமிழ் (Tamil)',
+  te: 'తెలుగు (Telugu)',
+  ml: 'മലയാളം (Malayalam)',
+  kn: 'ಕನ್ನಡ (Kannada)',
+  bn: 'বাংলা (Bengali)',
+}
+
 interface Message {
   id: string
   role: 'user' | 'assistant'
   content: string
+  contentNative?: string
   timestamp: Date
   suggestions?: string[]
 }
@@ -40,6 +52,7 @@ export default function ChatPage() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedLanguage, setSelectedLanguage] = useState('en')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -72,6 +85,7 @@ export default function ChatPage() {
         body: JSON.stringify({
           user_id: USER_ID,
           message: content,
+          language: selectedLanguage !== 'en' ? selectedLanguage : undefined,
         }),
       })
 
@@ -83,11 +97,16 @@ export default function ChatPage() {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: data.response_text || data.response || 'Sorry, I could not process that request.',
+        contentNative: data.response_text_native,
         timestamp: new Date(),
         suggestions: data.suggestions || [],
       }
 
       setMessages((prev) => [...prev, assistantMessage])
+      
+      if (data.detected_language && data.detected_language !== 'en') {
+        toast.success(`Detected language: ${LANGUAGES[data.detected_language as keyof typeof LANGUAGES]}`)
+      }
     } catch {
       toast.error('Failed to get AI response')
       const errorMessage: Message = {
@@ -147,6 +166,19 @@ export default function ChatPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+              <SelectTrigger className="w-[180px] bg-zinc-800 border-white/10 text-white">
+                <Globe className="h-4 w-4 mr-2" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-800 border-white/10">
+                {Object.entries(LANGUAGES).map(([code, name]) => (
+                  <SelectItem key={code} value={code} className="text-white">
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Button
               variant="outline"
               size="icon"
@@ -189,6 +221,14 @@ export default function ChatPage() {
                       : 'bg-black/50 text-white border border-white/10'
                   }`}
                 >
+                  {message.contentNative && (
+                    <>
+                      <p className="whitespace-pre-wrap mb-3 pb-3 border-b border-white/20">
+                        {message.contentNative}
+                      </p>
+                      <p className="text-xs text-gray-400 mb-2">English translation:</p>
+                    </>
+                  )}
                   <p className="whitespace-pre-wrap">{message.content}</p>
                 </div>
 

@@ -13,6 +13,7 @@ from services.chat_service import (
 )
 from services.weather_service import get_current_weather
 from services.temporal_service import get_historical_trend
+from services.translation_service import translation_service, SUPPORTED_LANGUAGES
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +26,14 @@ class ChatRequest(BaseModel):
     farm_id: Optional[str] = None
     message: str
     include_context: bool = True
+    language: Optional[str] = None
 
 
 class ChatResponse(BaseModel):
     """Chat response model"""
     response_text: str
+    response_text_native: Optional[str] = None
+    detected_language: str
     suggestions: List[str]
     confidence_level: str
     intent: str
@@ -49,6 +53,16 @@ async def send_chat_message(request: ChatRequest):
     """
     try:
         logger.info(f"Chat request from user {request.user_id}: {request.message}")
+        
+        # Step 0: Handle translation if non-English
+        original_message = request.message
+        detected_language = "en"
+        
+        if request.language and request.language != "en":
+            detected_language = request.language
+            # Translate to English for processing
+            request.message = translation_service.translate_to_english(request.message, detected_language)
+            logger.info(f"Translated from {detected_language} to English")
         
         # Step 1: Parse query to understand intent
         parsed = parse_farmer_query(request.message)
@@ -123,9 +137,20 @@ async def send_chat_message(request: ChatRequest):
             entities
         )
         
-        # Step 5: Return formatted response
+        # Step 5: Translate response back if needed
+        response_text_native = None
+        if detected_language != "en":
+            response_text_native = translation_service.translate_from_english(
+                response["response_text"], 
+                detected_language
+            )
+            logger.info(f"Translated response back to {detected_language}")
+        
+        # Step 6: Return formatted response
         return ChatResponse(
             response_text=response["response_text"],
+            response_text_native=response_text_native,
+            detected_language=detected_language,
             suggestions=response["suggestions"],
             confidence_level=response["confidence_level"],
             intent=intent,
@@ -181,6 +206,17 @@ async def process_voice_message(
         "status": "not_implemented",
         "message": "Voice chat will be available in future update",
         "suggestion": "Please use text chat for now"
+    }
+
+
+@router.get("/chat/languages")
+async def get_supported_languages():
+    """Get list of supported languages"""
+    return {
+        "languages": [
+            {"code": code, "name": name}
+            for code, name in SUPPORTED_LANGUAGES.items()
+        ]
     }
 
 
