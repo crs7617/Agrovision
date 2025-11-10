@@ -1,7 +1,5 @@
 {
-  "buildCommand": "cd frontend/agrovision-app && npm install && npm run build",
-  "devCommand": "cd frontend/agrovision-app && npm run dev",
-  "installCommand": "cd frontend/agrovision-app && npm install",
-  "framework": "nextjs",
-  "outputDirectory": "frontend/agrovision-app/.next"
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "framework": "nextjs"
 }
