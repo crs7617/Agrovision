@@ -44,6 +44,7 @@ def call_groq_api(prompt: str, system_prompt: str, model: str = "llama-3.1-8b-in
         
         client = setup_llm_client()
         if not client:
+            logger.warning("LLM client not available - GROQ_API_KEY not set")
             return None
         
         headers = {

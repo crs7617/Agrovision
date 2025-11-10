@@ -160,8 +160,15 @@ async def send_chat_message(request: ChatRequest):
         )
         
     except Exception as e:
-        logger.error(f"Error processing chat: {e}")
-        raise HTTPException(status_code=500, detail=f"Chat processing failed: {str(e)}")
+        logger.error(f"Error processing chat: {e}", exc_info=True)
+        # Return user-friendly error with more details for debugging
+        error_detail = str(e)
+        if "GROQ_API_KEY" in error_detail or "api_key" in error_detail.lower():
+            error_detail = "AI service configuration error. Please contact support."
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Sorry, I encountered an error processing your message. {error_detail}"
+        )
 
 
 @router.get("/chat/history/{farm_id}")
