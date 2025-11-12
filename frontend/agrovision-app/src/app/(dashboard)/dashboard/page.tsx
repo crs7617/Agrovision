@@ -21,7 +21,7 @@ export default function DashboardPage() {
     queryKey: ['farms', userId],
     queryFn: async () => {
       if (!userId) return []
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/farms?user_id=${userId}`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms?user_id=${userId}`)
       if (!res.ok) throw new Error('Failed to fetch farms')
       return res.json()
     },
@@ -37,7 +37,7 @@ export default function DashboardPage() {
       const healthPromises = farms.map(async (farm: Farm) => {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/farms/${farm.id}/trends?index=ndvi&days=7`
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms/${farm.id}/trends?index=ndvi&days=7`
           )
           if (!res.ok) return { farmId: farm.id, avgHealth: 75 }
           const data = await res.json()
