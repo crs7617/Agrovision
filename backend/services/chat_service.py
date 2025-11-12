@@ -466,6 +466,9 @@ def save_chat(
             saved_record = result.data[0]
             logger.info(f"✓ Chat saved to database: {saved_record['id']}")
             print(f"[DEBUG] ✓ Chat saved successfully: {saved_record['id']}")
+            # Ensure timestamp field exists (Supabase might return it as 'created_at' or 'timestamp')
+            if 'timestamp' not in saved_record:
+                saved_record['timestamp'] = saved_record.get('created_at', datetime.now().isoformat())
             return saved_record
         else:
             logger.warning("Chat save returned no data")
