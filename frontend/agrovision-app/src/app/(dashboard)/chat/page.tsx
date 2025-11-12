@@ -80,6 +80,9 @@ export default function ChatPage() {
     setIsLoading(true)
 
     try {
+      console.log('API_BASE_URL:', API_BASE_URL)
+      console.log('Calling:', `${API_BASE_URL}/api/chat`)
+      
       const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -90,9 +93,16 @@ export default function ChatPage() {
         }),
       })
 
-      if (!res.ok) throw new Error('Failed to get response')
+      console.log('Response status:', res.status)
+      
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error('Response error:', errorText)
+        throw new Error('Failed to get response')
+      }
 
       const data = await res.json()
+      console.log('Response data:', data)
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -108,7 +118,8 @@ export default function ChatPage() {
       if (data.detected_language && data.detected_language !== 'en') {
         toast.success(`Detected language: ${LANGUAGES[data.detected_language as keyof typeof LANGUAGES]}`)
       }
-    } catch {
+    } catch (error) {
+      console.error('Chat error:', error)
       toast.error('Failed to get AI response')
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
