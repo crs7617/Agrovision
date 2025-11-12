@@ -11,6 +11,7 @@ import toast from 'react-hot-toast'
 import { formatDistanceToNow } from 'date-fns'
 
 const USER_ID = '00000000-0000-0000-0000-000000000001'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://agrovision-backend.onrender.com'
 
 const LANGUAGES = {
   en: 'English',
@@ -79,7 +80,7 @@ export default function ChatPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/chat`, {
+      const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
