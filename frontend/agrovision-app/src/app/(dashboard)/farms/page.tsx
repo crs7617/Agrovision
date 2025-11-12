@@ -38,6 +38,7 @@ import { formatDistanceToNow } from 'date-fns'
 import type { Farm, CreateFarmData } from '@/types'
 
 const USER_ID = '00000000-0000-0000-0000-000000000001'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://agrovision-backend.onrender.com'
 
 const CROP_TYPES = [
   'Wheat',
@@ -70,7 +71,7 @@ export default function FarmsPage() {
   const { data: farms, isLoading } = useQuery({
     queryKey: ['farms'],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms?user_id=${USER_ID}`)
+      const res = await fetch(`${API_BASE_URL}/api/farms?user_id=${USER_ID}`)
       if (!res.ok) throw new Error('Failed to fetch farms')
       return res.json()
     },
@@ -79,7 +80,7 @@ export default function FarmsPage() {
   // Create farm mutation
   const createFarm = useMutation({
     mutationFn: async (data: CreateFarmData) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms`, {
+      const res = await fetch(`${API_BASE_URL}/api/farms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
