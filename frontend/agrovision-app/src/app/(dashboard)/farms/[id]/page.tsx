@@ -86,7 +86,7 @@ export default function FarmDetailPage() {
   const { data: farm, isLoading: farmLoading } = useQuery({
     queryKey: ['farm', farmId],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/api/farms/${farmId}?user_id=${USER_ID}`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms/${farmId}?user_id=${USER_ID}`)
       if (!res.ok) throw new Error('Failed to fetch farm')
       return res.json()
     },

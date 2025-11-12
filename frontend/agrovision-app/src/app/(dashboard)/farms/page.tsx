@@ -70,7 +70,7 @@ export default function FarmsPage() {
   const { data: farms, isLoading } = useQuery({
     queryKey: ['farms'],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/api/farms?user_id=${USER_ID}`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms?user_id=${USER_ID}`)
       if (!res.ok) throw new Error('Failed to fetch farms')
       return res.json()
     },
@@ -79,7 +79,7 @@ export default function FarmsPage() {
   // Create farm mutation
   const createFarm = useMutation({
     mutationFn: async (data: CreateFarmData) => {
-      const res = await fetch('http://localhost:8000/api/farms', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/farms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
